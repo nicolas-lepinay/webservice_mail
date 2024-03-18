@@ -27,7 +27,7 @@ async function main() {
         from: 'cinema-ynov@master1.com',
         to: content.email,
         subject: "Une nouvelle séance est désormais disponible",
-        html: "<h1>Nouvelle séance pour le film" + content.movie + " :</h1> <p>Une nouvelle séance est désormais disponible pour le film " + content.movie + " à : " + content.dateSeance + " !</p>",
+        html: "<h1>Nouvelle séance pour le film " + content.movie + " :</h1> <p>Une nouvelle séance est désormais disponible pour le film " + content.movie + " : " + content.dateSeance + " !</p>",
       });
 
       // Vider la mémoire de rabbitmq
@@ -42,12 +42,12 @@ async function main() {
   
   await reservation.consume("reservation-queue", async message => {
       const content = JSON.parse(message.content.toString());            
-      console.log(`Recieved message with client email for reservation : ${content.email}`);
+      console.log(`Received message with client email for reservation : ${content.email}`);
       await transporter.sendMail({
         from: 'cinema-ynov@master1.com',
         to: content.email,
-        subject: "Réservation pour une séance",
-        html: "<h1>Merci pour votre réservation de film :</h1> <p>Vous avez bien reservé votre film avec " + content.seats + " siège(s). Bon film!</p>",
+        subject: "La réservation pour votre séance est confirmée",
+        html: "<h1>Merci pour votre réservation de film :</h1> <p>Vous avez bien reservé votre film avec " + content.seats + " siège(s). Bon film !</p>",
       });
 
       // Vider la mémoire de rabbitmq
